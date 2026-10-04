@@ -3,7 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowDown, ArrowUp, Award, BookOpen, Check, ChevronDown,
   ChevronUp, Download, ExternalLink, FileText, FlaskConical,
-  FolderOpen, GraduationCap, Mail, MapPin, Menu, Moon,
+  FolderOpen, GraduationCap, Mail, MapPin, Menu, Moon, Music2, PenLine,
   ShieldCheck, Sun, Users, Wrench, X,
 } from 'lucide-react';
 import { portfolio, sections } from '@/data/portfolio';
@@ -19,17 +19,34 @@ function CountStat({ value, label, index }: { value: string; label: string; inde
     }
     const target = Number(value);
     const precision = value.includes('.') ? value.split('.')[1].length : 0;
-    const steps = 26;
-    let step = 0;
-    const timer = window.setInterval(() => {
-      step += 1;
-      setShown((Math.min(target, target * step / steps)).toFixed(precision));
-      if (step >= steps) window.clearInterval(timer);
-    }, 35 + index * 18);
-    return () => window.clearInterval(timer);
+    const duration = 1000 + index * 110;
+    let start = 0;
+    let lastPaint = 0;
+    let frame = 0;
+    const animate = (now: number) => {
+      if (!start) start = now;
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      if (now - lastPaint >= 32 || progress === 1) {
+        setShown((target * eased).toFixed(precision));
+        lastPaint = now;
+      }
+      if (progress < 1) frame = window.requestAnimationFrame(animate);
+      else setShown(value);
+    };
+    frame = window.requestAnimationFrame(animate);
+    return () => window.cancelAnimationFrame(frame);
   }, [value, index]);
-  return <div className="stat-card" data-testid={`stat-${index + 1}`}><div className="stat-value">{shown}</div><div className="stat-label">{label}</div></div>;
+  return <div className="stat-card card-hover" data-testid={`stat-${index + 1}`}><div className="stat-value">{shown}</div><div className="stat-label">{label}</div></div>;
 }
+
+const greetings = [
+  { word: 'Hello', language: 'English' },
+  { word: 'Hola', language: 'Spanish' },
+  { word: 'Bonjour', language: 'French' },
+  { word: 'Ciao', language: 'Italian' },
+  { word: 'Namaste', language: 'Hindi' },
+];
 
 const categoryIcons: Record<string, typeof ShieldCheck> = {
   Regulatory: ShieldCheck,
@@ -53,6 +70,7 @@ function App() {
   const [filter, setFilter] = useState('All');
   const [titleIndex, setTitleIndex] = useState(0);
   const [typedTitle, setTypedTitle] = useState('');
+  const [greetingIndex, setGreetingIndex] = useState(0);
   const [introVisible, setIntroVisible] = useState(() => {
     return !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
       !sessionStorage.getItem('dp-intro-seen');
@@ -60,6 +78,8 @@ function App() {
   const lastFocus = useRef<HTMLElement | null>(null);
   const projectCloseRef = useRef<HTMLButtonElement | null>(null);
   const menuCloseRef = useRef<HTMLButtonElement | null>(null);
+  const cursorRingRef = useRef<HTMLDivElement | null>(null);
+  const cursorDotRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
@@ -76,16 +96,24 @@ function App() {
   }, [introVisible]);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (shouldReduceMotion) return;
     const timer = window.setInterval(() => {
       setTitleIndex((value) => (value + 1) % portfolio.titleRotations.length);
     }, 3100);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [shouldReduceMotion]);
+
+  useEffect(() => {
+    if (shouldReduceMotion) return;
+    const timer = window.setInterval(() => {
+      setGreetingIndex((value) => (value + 1) % greetings.length);
+    }, 3000);
+    return () => window.clearInterval(timer);
+  }, [shouldReduceMotion]);
 
   useEffect(() => {
     const phrase = portfolio.titleRotations[titleIndex];
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (shouldReduceMotion) {
       setTypedTitle(phrase);
       return;
     }
@@ -97,7 +125,7 @@ function App() {
       if (position >= phrase.length) window.clearInterval(timer);
     }, 42);
     return () => window.clearInterval(timer);
-  }, [titleIndex]);
+  }, [titleIndex, shouldReduceMotion]);
 
   useEffect(() => {
     const sectionsToReveal = document.querySelectorAll<HTMLElement>('.section');
@@ -114,23 +142,74 @@ function App() {
   }, []);
 
   useEffect(() => {
+    if (shouldReduceMotion || !window.matchMedia('(pointer: fine)').matches) return;
+    const root = document.documentElement;
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let frame = 0;
+    let visible = false;
+
+    const drawRing = () => {
+      frame = 0;
+      currentX += (targetX - currentX) * 0.24;
+      currentY += (targetY - currentY) * 0.24;
+      cursorRingRef.current?.style.setProperty('transform', `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`);
+      if (Math.abs(targetX - currentX) + Math.abs(targetY - currentY) > 0.2) {
+        frame = window.requestAnimationFrame(drawRing);
+      } else {
+        currentX = targetX;
+        currentY = targetY;
+        cursorRingRef.current?.style.setProperty('transform', `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`);
+      }
+    };
     const move = (event: PointerEvent) => {
-      document.documentElement.style.setProperty('--mouse-x', `${event.clientX}px`);
-      document.documentElement.style.setProperty('--mouse-y', `${event.clientY}px`);
-      document.documentElement.classList.toggle('cursor-over-control', Boolean((event.target as HTMLElement)?.closest?.('a,button,[role="button"],input,textarea')));
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!visible) {
+        visible = true;
+        currentX = targetX;
+        currentY = targetY;
+        root.classList.add('cursor-visible');
+      }
+      cursorDotRef.current?.style.setProperty('transform', `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`);
+      const target = event.target;
+      root.classList.toggle('cursor-over-control', target instanceof Element && Boolean(target.closest('a,button,[role="button"],input,textarea')));
+      if (!frame) frame = window.requestAnimationFrame(drawRing);
+    };
+    const hide = () => {
+      visible = false;
+      root.classList.remove('cursor-visible', 'cursor-over-control');
     };
     window.addEventListener('pointermove', move, { passive: true });
-    return () => window.removeEventListener('pointermove', move);
-  }, []);
+    window.addEventListener('pointerleave', hide);
+    window.addEventListener('blur', hide);
+    return () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerleave', hide);
+      window.removeEventListener('blur', hide);
+      if (frame) window.cancelAnimationFrame(frame);
+      root.classList.remove('cursor-visible', 'cursor-over-control');
+    };
+  }, [shouldReduceMotion]);
 
   useEffect(() => {
+    let frame = 0;
     const onScroll = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      setProgress(maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0);
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        setProgress(maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0);
+        frame = 0;
+      });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -202,11 +281,12 @@ function App() {
 
   const goTo = (id: string) => {
     setMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    document.getElementById(id)?.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
   };
   const openProject = (item: Project) => {
     setProject(item);
   };
+  const greeting = greetings[greetingIndex];
 
   const header = (number: string, label: string, id: string) => (
     <div className="section-heading">
@@ -219,7 +299,7 @@ function App() {
   );
 
   return (
-    <div className="app-shell" data-testid="portfolio-app">
+    <div className="app-shell" data-greeting-theme={greetingIndex} data-testid="portfolio-app">
       <div className="progress-line" style={{ ['--progress' as string]: `${progress}%` }} aria-hidden="true" data-testid="scroll-progress" />
       {introVisible && (
         <div className="intro-screen" aria-label="Compiling dossier">
@@ -262,6 +342,17 @@ function App() {
         <section className="hero container" id="cover" aria-labelledby="cover-title">
           <div className="hero-grid">
             <div>
+              <div className="greeting-row" aria-label={`Hello in ${greeting.language}`} aria-live="off">
+                <span className="greeting-spark" aria-hidden="true">✳</span>
+                <motion.span
+                  className="greeting-word"
+                  key={greeting.word}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 7 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.42, ease: [0.22, 1, 0.36, 1] }}
+                >{greeting.word}</motion.span>
+                <span className="greeting-language">{greeting.language}</span>
+              </div>
               <div className="eyebrow mono">REGULATORY AFFAIRS · MEDICAL WRITING · GxP</div>
               <h1 id="cover-title">{portfolio.name}</h1>
               <div className="typing-line" aria-live="polite" data-testid="professional-title">{typedTitle}<span className="cursor" aria-hidden="true" /></div>
@@ -287,7 +378,7 @@ function App() {
         <section className="section container" id="summary" aria-labelledby="summary-title">
           {header('2.0', 'Professional Summary', 'summary')}
           <div className="doc-strip"><span>DOC ID: DP-RA-002</span><span>VERSION 2.1</span><span>MODULE 2</span><span className="status">APPROVED</span></div>
-          <div className="document-card summary-card">
+          <div className="document-card summary-card card-hover">
             <div className="summary-text"><strong>Regulatory affairs, made legible.</strong><br />{portfolio.summary}</div>
             <div className="competencies">
               {portfolio.competencies.map((item, i) => {
@@ -302,7 +393,7 @@ function App() {
           {header('3.0', 'Education', 'education')}
           <div className="doc-strip"><span>DOC ID: DP-RA-003</span><span>ACADEMIC RECORD</span><span>2 CREDENTIALS</span><span className="status">VERIFIED</span></div>
           <div className="education-grid">
-            {portfolio.education.map((item) => <article className="education-card" key={item.degree}>
+            {portfolio.education.map((item) => <article className="education-card card-hover" key={item.degree}>
               <span className={`status ${item.inProgress ? 'amber' : ''}`}>{item.status}</span>
               <div className="seal"><GraduationCap /></div>
               <h3>{item.degree}</h3>
@@ -321,11 +412,9 @@ function App() {
               const expanded = expandedRecords.includes(role.id);
               return <motion.article
                 layout={!shouldReduceMotion}
-                className="experience-card"
+                className="experience-card card-hover"
                 key={role.id}
                 data-testid={`experience-${role.id}`}
-                whileHover={shouldReduceMotion ? undefined : { rotateX: 2, rotateY: index % 2 === 0 ? -2 : 2, y: -2 }}
-                transition={{ type: 'spring', stiffness: 260, damping: 22 }}
               >
                 <span className="timeline-node" aria-hidden="true" />
                 <div className="experience-content">
@@ -357,7 +446,7 @@ function App() {
           {header('5.0', 'Submission Packages', 'projects')}
           <div className="doc-strip"><span>DOC ID: DP-RA-005</span><span>4 CONTROLLED PROJECTS</span><span>SUBMISSION LIFECYCLE</span><span className="status">COMPILED</span></div>
           <div className="projects-grid" style={{ marginTop: 17 }}>
-            {portfolio.projects.map((item) => <button className="project-card" key={item.id} type="button" onClick={() => openProject(item)} aria-haspopup="dialog" data-testid={`project-${item.id}`}>
+            {portfolio.projects.map((item) => <button className="project-card card-hover" key={item.id} type="button" onClick={() => openProject(item)} aria-haspopup="dialog" data-testid={`project-${item.id}`}>
               <span className="folder-tab">{item.id}</span>
               <span className="framework">{item.framework}</span>
               <h3>{item.title}</h3>
@@ -380,7 +469,7 @@ function App() {
         <section className="section container" id="skills" aria-labelledby="skills-title">
           {header('6.0', 'Compliance Matrix', 'skills')}
           <div className="doc-strip"><span>DOC ID: DP-RA-006</span><span>SKILL INDEX</span><span>{allSkills.length} ITEMS</span><span className="status">CURRENT</span></div>
-          <div className="skills-panel" style={{ marginTop: 17 }}>
+          <div className="skills-panel card-hover" style={{ marginTop: 17 }}>
             <div className="filter-tabs" role="tablist" aria-label="Filter skills by category">
               {['All', ...portfolio.skillGroups.map((group) => group.category)].map((category) => <button className={`filter-tab ${filter === category ? 'selected' : ''}`} type="button" role="tab" aria-selected={filter === category} key={category} onClick={() => setFilter(category)} data-testid={`skill-filter-${category.toLowerCase().replaceAll(/[^a-z0-9]+/g, '-')}`}>{category}</button>)}
             </div>
@@ -393,8 +482,27 @@ function App() {
           </div>
         </section>
 
+        <section className="section container" id="hobbies" aria-labelledby="hobbies-title">
+          {header('7.0', 'Beyond Work', 'hobbies')}
+          <p className="hobbies-intro">The things I make time for beyond work: words, movement, and a good book.</p>
+          <div className="hobby-grid">
+            {portfolio.hobbies.map((hobby, index) => {
+              const Icon = hobby.id === 'writing' ? PenLine : hobby.id === 'dancing' ? Music2 : BookOpen;
+              return <article className="hobby-card card-hover" key={hobby.id}>
+                <div className="hobby-card-top">
+                  <span className="hobby-icon"><Icon aria-hidden="true" /></span>
+                  <span className="hobby-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                </div>
+                <div className="eyebrow mono">{hobby.label}</div>
+                <h3>{hobby.title}</h3>
+                <p>{hobby.description}</p>
+              </article>;
+            })}
+          </div>
+        </section>
+
         <section className="section container" id="contact" aria-labelledby="contact-title">
-          {header('7.0', 'Get in Touch', 'contact')}
+          {header('8.0', 'Get in Touch', 'contact')}
           <div className="contact-panel">
             <div className="contact-copy">
               <div className="eyebrow mono">OPEN TO NEW OPPORTUNITIES</div>
@@ -403,12 +511,12 @@ function App() {
               <a className="btn btn-primary" href={`mailto:${portfolio.email}`}><Mail /> Say hello</a>
             </div>
             <div className="contact-links">
-              <a className="contact-link" href={`mailto:${portfolio.email}`}>
+              <a className="contact-link card-hover" href={`mailto:${portfolio.email}`}>
                 <span className="contact-icon"><Mail /></span>
                 <span><span className="contact-label">Email</span><strong>{portfolio.email}</strong></span>
                 <ExternalLink aria-hidden="true" />
               </a>
-              {portfolio.linkedinUrl && <a className="contact-link" href={portfolio.linkedinUrl} target="_blank" rel="noreferrer">
+              {portfolio.linkedinUrl && <a className="contact-link card-hover" href={portfolio.linkedinUrl} target="_blank" rel="noreferrer">
                 <span className="contact-icon"><ExternalLink /></span>
                 <span><span className="contact-label">LinkedIn</span><strong>Connect with Dhrashti</strong></span>
                 <ArrowUp aria-hidden="true" />
@@ -465,7 +573,8 @@ function App() {
         </motion.article>
       </div>}
 
-      <div className="custom-cursor" aria-hidden="true" />
+      <div className="custom-cursor" ref={cursorRingRef} aria-hidden="true" />
+      <div className="custom-cursor-dot" ref={cursorDotRef} aria-hidden="true" />
     </div>
   );
 }

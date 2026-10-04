@@ -16,6 +16,26 @@ export const portfolio = {
     'Document Lifecycle Specialist',
     'GxP-Minded Documentation Expert',
   ],
+  hobbies: [
+    {
+      id: 'writing',
+      label: 'Words & meaning',
+      title: 'Poetry and writing',
+      description: 'I love writing about real events and the people I hold close.',
+    },
+    {
+      id: 'dancing',
+      label: 'Movement & joy',
+      title: 'Dancing',
+      description: 'Dancing is my love and one of my favorite ways to express myself.',
+    },
+    {
+      id: 'reading',
+      label: 'Stories & discovery',
+      title: 'Reading books',
+      description: 'I love getting lost in books and discovering new perspectives.',
+    },
+  ],
   stats: [
     { value: '3.9', label: 'GPA, MS Regulatory Affairs' },
     { value: '4', label: 'Industry Roles' },
@@ -230,5 +250,6 @@ export const sections = [
   { id: 'experience', number: '4.0', label: 'Experience' },
   { id: 'projects', number: '5.0', label: 'Projects' },
   { id: 'skills', number: '6.0', label: 'Skills' },
-  { id: 'contact', number: '7.0', label: 'Contact' },
+  { id: 'hobbies', number: '7.0', label: 'Beyond Work' },
+  { id: 'contact', number: '8.0', label: 'Contact' },
 ];
