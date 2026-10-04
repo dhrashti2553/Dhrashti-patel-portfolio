@@ -1,14 +1,13 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import {
-  ArrowDown, ArrowUp, Award, BookOpen, BriefcaseBusiness, Check, ChevronDown,
-  ChevronUp, Clipboard, Download, ExternalLink, FileText, FlaskConical,
-  FolderOpen, GraduationCap, Mail, MapPin, Menu, Moon, Phone, Send,
+  ArrowDown, ArrowUp, Award, BookOpen, Check, ChevronDown,
+  ChevronUp, Download, ExternalLink, FileText, FlaskConical,
+  FolderOpen, GraduationCap, Mail, MapPin, Menu, Moon,
   ShieldCheck, Sun, Users, Wrench, X,
 } from 'lucide-react';
 import { portfolio, sections } from '@/data/portfolio';
 
-type AuditLine = { time: string; message: string; id: number };
 type Project = (typeof portfolio.projects)[number];
 
 function CountStat({ value, label, index }: { value: string; label: string; index: number }) {
@@ -49,13 +48,9 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('cover');
   const [progress, setProgress] = useState(0);
-  const [auditExpanded, setAuditExpanded] = useState(() => window.innerWidth > 640);
-  const [audit, setAudit] = useState<AuditLine[]>([]);
   const [expandedRecords, setExpandedRecords] = useState<string[]>([]);
   const [project, setProject] = useState<Project | null>(null);
   const [filter, setFilter] = useState('All');
-  const [toast, setToast] = useState('');
-  const [received, setReceived] = useState(false);
   const [titleIndex, setTitleIndex] = useState(0);
   const [typedTitle, setTypedTitle] = useState('');
   const [introVisible, setIntroVisible] = useState(() => {
@@ -76,7 +71,7 @@ function App() {
     const timer = window.setTimeout(() => {
       setIntroVisible(false);
       sessionStorage.setItem('dp-intro-seen', '1');
-    }, 1050);
+    }, 340);
     return () => window.clearTimeout(timer);
   }, [introVisible]);
 
@@ -128,13 +123,6 @@ function App() {
     return () => window.removeEventListener('pointermove', move);
   }, []);
 
-  const addAudit = useCallback((message: string) => {
-    const now = new Date();
-    const time = [now.getHours(), now.getMinutes(), now.getSeconds()]
-      .map((part) => String(part).padStart(2, '0')).join(':');
-    setAudit((lines) => [...lines, { time, message, id: Date.now() + Math.random() }].slice(-5));
-  }, []);
-
   useEffect(() => {
     const onScroll = () => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
@@ -151,14 +139,12 @@ function App() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
-          const section = sections.find((item) => item.id === entry.target.id);
-          if (section) addAudit(`Reviewer accessed Section ${section.number}: ${section.label}`);
         }
       });
     }, { rootMargin: '-22% 0px -62% 0px', threshold: 0 });
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
-  }, [addAudit]);
+  }, []);
 
   useEffect(() => {
     if (!project) return;
@@ -208,40 +194,24 @@ function App() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    if (!toast) return;
-    const timer = window.setTimeout(() => setToast(''), 2400);
-    return () => window.clearTimeout(timer);
-  }, [toast]);
-
   const allSkills = useMemo(
     () => portfolio.skillGroups.flatMap((group) => group.skills.map(([name, context]) => ({ name, context, category: group.category }))),
     [],
   );
   const visibleSkills = filter === 'All' ? allSkills : allSkills.filter((skill) => skill.category === filter);
 
-  const downloadResume = () => addAudit('Reviewer downloaded Resume v2026.1');
   const goTo = (id: string) => {
     setMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
-  const showToast = async (value: string, label: string) => {
-    try {
-      await navigator.clipboard.writeText(value);
-      setToast(`${label} copied`);
-    } catch {
-      setToast('Clipboard unavailable — select and copy the contact detail');
-    }
-  };
   const openProject = (item: Project) => {
     setProject(item);
-    addAudit(`Reviewer opened DOC ${item.id}: ${item.title}`);
   };
 
   const header = (number: string, label: string, id: string) => (
     <div className="section-heading">
       <div>
-        <div className="eyebrow mono">MODULE {number} · CONTROLLED RECORD</div>
+        <div className="eyebrow mono">SECTION {number}</div>
         <h2 className="section-title" id={`${id}-title`}>{label}</h2>
       </div>
       <span className="status">EFFECTIVE</span>
@@ -255,8 +225,8 @@ function App() {
         <div className="intro-screen" aria-label="Compiling dossier">
           <div className="intro-content">
             <div className="intro-mark">DP</div>
-            <div className="intro-title">Compiling dossier…</div>
-            <div className="intro-sub">DOCUMENT CONTROL · DP-RA-001</div>
+            <div className="intro-title">Dhrashti Patel</div>
+            <div className="intro-sub">REGULATORY AFFAIRS · MEDICAL WRITING</div>
             <div className="intro-track"><div className="intro-fill" /></div>
           </div>
         </div>
@@ -269,20 +239,20 @@ function App() {
           </a>
           <div className="nav-links">
             {sections.map((item) => (
-              <a key={item.id} className={activeSection === item.id ? 'active' : ''} href={`#${item.id}`} onClick={() => addAudit(`Reviewer accessed Section ${item.number}: ${item.label}`)}>
+              <a key={item.id} className={activeSection === item.id ? 'active' : ''} href={`#${item.id}`}>
                 {item.number} {item.label}
               </a>
             ))}
           </div>
           <div className="nav-actions">
             <div className="theme-control">
-              <span className="theme-copy">{dark ? 'NIGHT REVIEW' : 'CLEAN ROOM'}</span>
-              <button className="theme-switch" type="button" role="switch" aria-checked={dark} aria-label="Toggle Clean Room / Night Review theme" onClick={() => setDark(!dark)} data-testid="theme-toggle">
+              <span className="theme-copy">{dark ? 'DARK MODE' : 'LIGHT MODE'}</span>
+              <button className="theme-switch" type="button" role="switch" aria-checked={dark} aria-label="Toggle light and dark mode" onClick={() => setDark(!dark)} data-testid="theme-toggle">
                 <span aria-hidden="true" />
               </button>
               {dark ? <Moon size={13} aria-hidden="true" /> : <Sun size={13} aria-hidden="true" />}
             </div>
-            <a className="btn btn-primary resume-nav" href={portfolio.resumePath} download onClick={downloadResume} data-testid="resume-download-nav"><Download /> Resume</a>
+            <a className="btn btn-primary resume-nav" href={portfolio.resumePath} download data-testid="resume-download-nav"><Download /> Resume</a>
           </div>
           <button className="menu-button" type="button" aria-label="Open table of contents" aria-expanded={menuOpen} onClick={() => setMenuOpen(true)} data-testid="mobile-menu-open"><Menu size={19} /></button>
         </nav>
@@ -292,28 +262,21 @@ function App() {
         <section className="hero container" id="cover" aria-labelledby="cover-title">
           <div className="hero-grid">
             <div>
-              <div className="eyebrow mono">SUBMISSION COVER LETTER | DOC ID: DP-RA-001</div>
+              <div className="eyebrow mono">REGULATORY AFFAIRS · MEDICAL WRITING · GxP</div>
               <h1 id="cover-title">{portfolio.name}</h1>
               <div className="typing-line" aria-live="polite" data-testid="professional-title">{typedTitle}<span className="cursor" aria-hidden="true" /></div>
               <p className="hero-copy">{portfolio.tagline}</p>
               <div className="location"><MapPin aria-hidden="true" />{portfolio.location}</div>
               <div className="hero-buttons">
-                <button className="btn btn-primary" onClick={() => goTo('summary')} data-testid="view-dossier"><BookOpen /> View My Dossier</button>
-                <a className="btn btn-outline" href={portfolio.resumePath} download onClick={downloadResume} data-testid="resume-download-hero"><Download /> Download Resume</a>
+                <button className="btn btn-primary" onClick={() => goTo('summary')} data-testid="view-dossier"><BookOpen /> View My Journey</button>
+                <a className="btn btn-outline" href={portfolio.resumePath} download data-testid="resume-download-hero"><Download /> Download Resume</a>
               </div>
             </div>
-            <div className="portrait-stage" aria-label="Dhrashti Patel profile monogram placeholder">
+            <div className="portrait-stage" aria-label="Portrait of Dhrashti Patel">
               <div className="portrait-frame">
-                <div className="monogram" role="img" aria-label="DP monogram placeholder; no profile photograph supplied">DP</div>
+                <img className="portrait-image" src="/dhrashti-profile.jpg" alt="Dhrashti Patel smiling in a black blazer" />
               </div>
-              <motion.span
-                className="stamp"
-                aria-label="Approved stamp"
-                initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.45, rotate: -12 }}
-                animate={{ opacity: 0.86, scale: 1, rotate: -12 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.72, delay: shouldReduceMotion ? 0 : 0.35, type: 'spring', bounce: 0.25 }}
-              >APPROVED</motion.span>
-              <div className="portrait-note">PERSONNEL RECORD · DP-001</div>
+              <div className="portrait-note">DHRASHTI PATEL · 2026</div>
             </div>
           </div>
           <div className="stats" aria-label="Professional highlights">
@@ -431,40 +394,30 @@ function App() {
         </section>
 
         <section className="section container" id="contact" aria-labelledby="contact-title">
-          {header('7.0', 'Submit Your Inquiry', 'contact')}
-          <div className="doc-strip"><span>DOC ID: DP-RA-007</span><span>CONTACT / CORRESPONDENCE</span><span>REVISION 2026.1</span><span className="status">OPEN</span></div>
-          <div className="contact-intro" style={{ marginTop: 23 }}>
-            <div><h2 className="section-title" id="contact-inquiry-title">Let’s Work Together</h2><p>{portfolio.contactAvailability}</p></div>
-            <div className="eyebrow mono">CORRESPONDENCE PREFERRED · EMAIL</div>
-          </div>
-          <div className="contact-grid">
-            <div className="contact-details">
-              <div className="contact-item"><span className="contact-icon"><Mail /></span><div className="contact-info"><div className="contact-label">Email</div><a className="contact-value" href={`mailto:${portfolio.email}`}>{portfolio.email}</a></div><button className="copy-btn" aria-label="Copy email address" onClick={() => showToast(portfolio.email, 'Email address')} data-testid="copy-email"><Clipboard /></button></div>
-              <div className="contact-item"><span className="contact-icon"><Phone /></span><div className="contact-info"><div className="contact-label">Phone</div><a className="contact-value" href={`tel:${portfolio.phone.replace(/[^\d+]/g, '')}`}>{portfolio.phone}</a></div><button className="copy-btn" aria-label="Copy phone number" onClick={() => showToast(portfolio.phone, 'Phone number')} data-testid="copy-phone"><Clipboard /></button></div>
-              <div className="contact-item"><span className="contact-icon"><ExternalLink /></span><div className="contact-info"><div className="contact-label">LinkedIn</div>{portfolio.linkedinUrl ? <a className="contact-value" href={portfolio.linkedinUrl} target="_blank" rel="noreferrer">Open LinkedIn profile</a> : <span className="unavailable" title="The supplied brief contains a placeholder, not a usable profile URL.">{portfolio.linkedinPlaceholder} · unavailable</span>}</div></div>
-              <div className="contact-item"><span className="contact-icon"><MapPin /></span><div className="contact-info"><div className="contact-label">Location</div><span className="contact-value">{portfolio.location}</span></div></div>
+          {header('7.0', 'Get in Touch', 'contact')}
+          <div className="contact-panel">
+            <div className="contact-copy">
+              <div className="eyebrow mono">OPEN TO NEW OPPORTUNITIES</div>
+              <h2 className="section-title" id="contact-inquiry-title">Let’s create something beautiful together.</h2>
+              <p>{portfolio.contactAvailability}</p>
+              <a className="btn btn-primary" href={`mailto:${portfolio.email}`}><Mail /> Say hello</a>
             </div>
-            <form className="contact-form" action={`mailto:${portfolio.email}`} method="post" encType="text/plain" onSubmit={() => setReceived(true)} data-testid="contact-form">
-              <h3>Compose correspondence</h3>
-              <div className="form-grid">
-                <div className="field"><label htmlFor="contact-name">Name</label><input id="contact-name" name="Name" required autoComplete="name" placeholder="Your name" data-testid="contact-name" /></div>
-                <div className="field"><label htmlFor="contact-email">Email</label><input id="contact-email" name="Email" type="email" required autoComplete="email" placeholder="you@company.com" data-testid="contact-email" /></div>
-                <div className="field full"><label htmlFor="contact-message">Message</label><textarea id="contact-message" name="Message" required placeholder="Your message" data-testid="contact-message" /></div>
-              </div>
-              <button className="btn btn-primary" type="submit" data-testid="contact-submit"><Send /> Submit for Review</button>
-              {received && <motion.span
-                className="stamp received-stamp"
-                role="status"
-                aria-label="Message received"
-                initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.35, rotate: -12 }}
-                animate={{ opacity: 0.86, scale: 1, rotate: -12 }}
-                transition={{ duration: shouldReduceMotion ? 0 : 0.55, type: 'spring', bounce: 0.2 }}
-              >RECEIVED</motion.span>}
-            </form>
+            <div className="contact-links">
+              <a className="contact-link" href={`mailto:${portfolio.email}`}>
+                <span className="contact-icon"><Mail /></span>
+                <span><span className="contact-label">Email</span><strong>{portfolio.email}</strong></span>
+                <ExternalLink aria-hidden="true" />
+              </a>
+              {portfolio.linkedinUrl && <a className="contact-link" href={portfolio.linkedinUrl} target="_blank" rel="noreferrer">
+                <span className="contact-icon"><ExternalLink /></span>
+                <span><span className="contact-label">LinkedIn</span><strong>Connect with Dhrashti</strong></span>
+                <ArrowUp aria-hidden="true" />
+              </a>}
+            </div>
           </div>
           <div className="resume-actions">
-            <a className="btn btn-primary" href={portfolio.resumePath} download onClick={downloadResume} data-testid="resume-download-contact"><Download /> Download Resume (PDF)</a>
-            <a className="btn btn-outline" href={portfolio.resumePath} target="_blank" rel="noreferrer" onClick={downloadResume} data-testid="resume-view"><FileText /> View Resume</a>
+            <a className="btn btn-outline" href={portfolio.resumePath} download data-testid="resume-download-contact"><Download /> Download Resume (PDF)</a>
+            <a className="btn btn-outline" href={portfolio.resumePath} target="_blank" rel="noreferrer" data-testid="resume-view"><FileText /> View Resume</a>
           </div>
         </section>
       </main>
@@ -480,11 +433,11 @@ function App() {
         </div>
       </footer>
 
-      {menuOpen && <div className="mobile-overlay" role="dialog" aria-modal="true" aria-label="Dossier table of contents" data-testid="mobile-navigation">
+      {menuOpen && <div className="mobile-overlay" role="dialog" aria-modal="true" aria-label="Portfolio table of contents" data-testid="mobile-navigation">
         <div className="mobile-menu-head"><a className="brand" href="#cover" onClick={() => goTo('cover')}><span className="brand-mark">DP</span><span className="brand-name">Dhrashti Patel</span></a><button className="mobile-menu-close" type="button" onClick={() => setMenuOpen(false)} ref={menuCloseRef} aria-label="Close navigation"><X /></button></div>
-        <p className="toc-label">DOSSIER CONTENTS · CONTROLLED INDEX</p>
+        <p className="toc-label">PORTFOLIO CONTENTS</p>
         {sections.map((item) => <a className="toc-link" key={item.id} href={`#${item.id}`} onClick={() => goTo(item.id)} data-testid={`mobile-nav-${item.id}`}><span className="toc-number">{item.number}</span><span>{item.label}</span><span className="toc-leader" /><ArrowDown size={13} /></a>)}
-        <a className="btn btn-primary mobile-download" href={portfolio.resumePath} download onClick={downloadResume}><Download /> Download Resume</a>
+        <a className="btn btn-primary mobile-download" href={portfolio.resumePath} download><Download /> Download Resume</a>
       </div>}
 
       {project && <div className="modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget) setProject(null); }} data-testid="project-modal-backdrop">
@@ -512,14 +465,6 @@ function App() {
         </motion.article>
       </div>}
 
-      <div className="audit-dock" data-testid="audit-trail" aria-label="Audit trail panel" hidden={!auditExpanded}>
-        <div className="audit-head"><span className="audit-title">AUDIT TRAIL · 21 CFR PART 11 STYLE</span><button className="audit-toggle" type="button" onClick={() => setAuditExpanded(false)} aria-label="Collapse audit trail">−</button></div>
-        <ul className="audit-items" aria-live="polite">
-          {audit.length ? audit.slice(-5).map((line) => <li key={line.id}><time>{line.time}</time><span>{line.message}</span></li>) : <li><time>--:--:--</time><span>Reviewer session initialized</span></li>}
-        </ul>
-      </div>
-      {!auditExpanded && <button className="audit-pill" type="button" onClick={() => setAuditExpanded(true)} data-testid="audit-trail-open"><span className="pulse" />Audit Trail</button>}
-      {toast && <div className="toast" role="status" data-testid="toast">{toast}</div>}
       <div className="custom-cursor" aria-hidden="true" />
     </div>
   );

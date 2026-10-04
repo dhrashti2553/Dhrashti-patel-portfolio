@@ -1,0 +1,1 @@
+- [First-load portfolio intro](first-load-portfolio-intro.md) — keep the animated intro brief so first-time visitors and preview captures reach the portfolio content quickly.

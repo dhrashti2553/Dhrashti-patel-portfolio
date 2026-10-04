@@ -1,0 +1,78 @@
+Build a modern, aesthetic, single-page personal portfolio website for Dhrashti Patel.
+It should feel warm, artistic, and Gen-Z aesthetic — NOT a plain two-color corporate template.
+
+## Overall vibe & theme
+- Aesthetic: soft, dreamy, creative-meets-professional. Think warm sunset gradients
+  (peach → rose → soft lavender) with deep plum/charcoal for contrast text.
+- Subtle glassmorphism cards (frosted blur, soft borders, gentle shadows).
+- Rounded corners, generous whitespace, smooth flowing shapes (blobs/waves) in the background
+  that slowly drift.
+- Typography: an elegant serif or script font for headings (e.g. "Playfair Display" or
+  "Cormorant Garamond") paired with a clean sans-serif for body text (e.g. "Poppins" or "Inter").
+- Light and dark mode toggle, both looking polished.
+- Fully responsive (looks great on mobile).
+
+## Section 1 — Hero / Greeting (first page)
+- Big animated greeting that cycles through languages with a typewriter effect:
+  "Namaste 🙏" → "Hello 👋" → "Kem Cho 🌸" → "Hola ✨"
+  then settles on: "I'm Dhrashti Patel."
+- Under it, a one-line tagline with a soft fade-in, e.g.
+  "Engineer by profession · Dancer, writer & poet at heart."
+  [EDIT: replace "Engineer" with her actual role/title from LinkedIn]
+- Her profile photo in an organic blob-shaped or arch-shaped frame with a slow-rotating
+  gradient ring around it and a gentle floating animation.
+- Small floating decorative elements around the photo: tiny quill/pen, musical notes,
+  ghungroo (dance bells) or sparkles drifting slowly.
+- Two buttons: "View My Journey" (smooth scrolls down) and "Let's Connect".
+- Social icons: LinkedIn (https://www.linkedin.com/in/dhrashtipatel/), Email, GitHub (if any).
+
+## Section 2 — About Me
+- Short, warm paragraph written in first person.
+- Text reveals line-by-line as the user scrolls into view.
+[EDIT: paste her LinkedIn "About" summary here]
+
+## Section 3 — Education
+- Vertical timeline with a glowing line that "draws" itself as you scroll.
+- Each education entry is a glass card that slides up and fades in, one after another (staggered).
+- Each card: institution, degree, years, key highlights.
+[EDIT: paste education details from LinkedIn]
+
+## Section 4 — Experience
+- Cards rise up from below with a stagger animation as the section enters view.
+- Hover effect: card tilts slightly in 3D and the border glows with the gradient.
+- Each card: role, company, dates, 2–3 bullet achievements, small tech/skill tags as pills.
+[EDIT: paste experience details from LinkedIn]
+
+## Section 5 — Skills
+- Animated pill/tag cloud or circular progress rings that fill when scrolled into view.
+[EDIT: paste skills from LinkedIn]
+
+## Section 6 — Beyond Work: My Creative Side (the special section)
+Give this section its own distinct, more artistic feel — slightly darker or deeper gradient,
+like stepping into an evening stage.
+Three hobby cards, each with its own animated icon and mood:
+1. 💃 Dance — a card with flowing motion lines or a silhouette that sways on hover.
+   Caption: "Where rhythm becomes my language."
+2. ✍️ Writing — a card where text appears as if being handwritten (stroke animation).
+   Caption: "Stories and thoughts, one page at a time."
+3. 🌙 Shayari & Poetry — a card styled like an old diary page / parchment.
+   Include a rotating "Poetry Corner" that shows a short original shayari or poem line,
+   fading between 3–4 lines every few seconds.
+   [EDIT: add 3–4 of her own shayari/poem lines, in Hindi/Gujarati/English]
+
+## Section 7 — Contact
+- Simple elegant contact form (name, email, message) inside a glass card.
+- Closing line: "Let's create something beautiful together ✨" with a soft "Dhanyavaad 🙏" sign-off.
+
+## Animations & interactions (important)
+- Smooth scrolling throughout.
+- Every section animates in on scroll (fade + slide up, staggered children).
+- Subtle parallax on background blobs.
+- A custom cursor with a soft glowing trail.
+- Sticky navbar that turns into frosted glass on scroll, with an active-section indicator.
+- A small page-load intro: her initials "DP" drawn in script, then fading into the hero.
+- Keep animations smooth and elegant, not chaotic. Respect prefers-reduced-motion.
+
+## Tech
+- Single HTML file (or React + Tailwind if preferred) with Framer Motion / GSAP-style animations.
+- Use the uploaded headshot as the profile image.
