@@ -78,8 +78,6 @@ function App() {
   const lastFocus = useRef<HTMLElement | null>(null);
   const projectCloseRef = useRef<HTMLButtonElement | null>(null);
   const menuCloseRef = useRef<HTMLButtonElement | null>(null);
-  const cursorRingRef = useRef<HTMLDivElement | null>(null);
-  const cursorDotRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', dark);
@@ -140,59 +138,6 @@ function App() {
     sectionsToReveal.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, []);
-
-  useEffect(() => {
-    if (shouldReduceMotion || !window.matchMedia('(pointer: fine)').matches) return;
-    const root = document.documentElement;
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let frame = 0;
-    let visible = false;
-
-    const drawRing = () => {
-      frame = 0;
-      currentX += (targetX - currentX) * 0.24;
-      currentY += (targetY - currentY) * 0.24;
-      cursorRingRef.current?.style.setProperty('transform', `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`);
-      if (Math.abs(targetX - currentX) + Math.abs(targetY - currentY) > 0.2) {
-        frame = window.requestAnimationFrame(drawRing);
-      } else {
-        currentX = targetX;
-        currentY = targetY;
-        cursorRingRef.current?.style.setProperty('transform', `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`);
-      }
-    };
-    const move = (event: PointerEvent) => {
-      targetX = event.clientX;
-      targetY = event.clientY;
-      if (!visible) {
-        visible = true;
-        currentX = targetX;
-        currentY = targetY;
-        root.classList.add('cursor-visible');
-      }
-      cursorDotRef.current?.style.setProperty('transform', `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`);
-      const target = event.target;
-      root.classList.toggle('cursor-over-control', target instanceof Element && Boolean(target.closest('a,button,[role="button"],input,textarea')));
-      if (!frame) frame = window.requestAnimationFrame(drawRing);
-    };
-    const hide = () => {
-      visible = false;
-      root.classList.remove('cursor-visible', 'cursor-over-control');
-    };
-    window.addEventListener('pointermove', move, { passive: true });
-    window.addEventListener('pointerleave', hide);
-    window.addEventListener('blur', hide);
-    return () => {
-      window.removeEventListener('pointermove', move);
-      window.removeEventListener('pointerleave', hide);
-      window.removeEventListener('blur', hide);
-      if (frame) window.cancelAnimationFrame(frame);
-      root.classList.remove('cursor-visible', 'cursor-over-control');
-    };
-  }, [shouldReduceMotion]);
 
   useEffect(() => {
     let frame = 0;
@@ -573,8 +518,6 @@ function App() {
         </motion.article>
       </div>}
 
-      <div className="custom-cursor" ref={cursorRingRef} aria-hidden="true" />
-      <div className="custom-cursor-dot" ref={cursorDotRef} aria-hidden="true" />
     </div>
   );
 }
