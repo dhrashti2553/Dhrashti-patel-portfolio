@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Dhrashti Patel Portfolio"
+description = "A personal regulatory affairs portfolio for Dhrashti Patel, presenting her education, pharmaceutical experience, regulatory projects, skills, resume, and contact information in an interactive submission-dossier format."
+version = "1.0.0"
+id = "artifacts/dhrashti-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21030
+
+[services.development]
+run = "pnpm --filter @workspace/dhrashti-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/dhrashti-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/dhrashti-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21030"
+BASE_PATH = "/"
