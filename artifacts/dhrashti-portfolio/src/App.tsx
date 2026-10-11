@@ -1062,7 +1062,6 @@ function App() {
                 <span className="status">{project.framework}</span>
                 <span className="status">COMPLETED</span>
               </div>
-              <p>{project.teaser}</p>
               <ul>
                 {project.bullets.map((bullet) => (
                   <li key={bullet}>{bullet}</li>
