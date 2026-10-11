@@ -162,7 +162,7 @@ export const portfolio = {
       id: 'DP-PRJ-001',
       framework: '21 CFR Part 312 · FDA IND',
       title: 'IND Application & Protocol Amendment Development',
-      teaser: 'Academic regulatory project developed at Northeastern University.',
+      teaser: 'Developed a mock IND submission package including FDA Form 1571, clean and annotated protocols, cover letter, and protocol amendment summary aligned with 21 CFR Part 312. Applied regulatory submission lifecycle and document-control principles to organize the package and support simulated FDA review readiness.',
       bullets: [
         'Developed a mock IND submission package including FDA Form 1571, clean and annotated protocols, cover letter, and protocol amendment summary aligned with 21 CFR Part 312.',
         'Applied regulatory submission lifecycle and document-control principles to organize the package and support simulated FDA review readiness.',
@@ -173,7 +173,7 @@ export const portfolio = {
       id: 'DP-PRJ-002',
       framework: 'FDA Unique Device Identification · UDI',
       title: 'GUDID Regulatory Compliance Summary',
-      teaser: 'Academic regulatory project developed at Northeastern University.',
+      teaser: 'Analyzed FDA Unique Device Identification (UDI) requirements, including Device Identifier submission, validation, and applicable regulatory reporting obligations. Evaluated how UDI and traceability requirements support product identification, post-market accountability, and regulatory compliance.',
       bullets: [
         'Analyzed FDA Unique Device Identification (UDI) requirements, including Device Identifier submission, validation, and applicable regulatory reporting obligations.',
         'Evaluated how UDI and traceability requirements support product identification, post-market accountability, and regulatory compliance.',
@@ -184,7 +184,7 @@ export const portfolio = {
       id: 'DP-PRJ-003',
       framework: 'PREA · Pediatric Regulatory Strategy',
       title: 'Initial Pediatric Study Plan (iPSP): Ivacaftor',
-      teaser: 'Academic regulatory project developed at Northeastern University.',
+      teaser: 'Developed a pediatric regulatory development plan aligned with Pediatric Research Equity Act (PREA) requirements, incorporating safety endpoints and phased submission considerations. Structured regulatory justification for waiver and deferral strategies, demonstrating how pediatric requirements can influence development planning and regulatory strategy.',
       bullets: [
         'Developed a pediatric regulatory development plan aligned with Pediatric Research Equity Act (PREA) requirements, incorporating safety endpoints and phased submission considerations.',
         'Structured regulatory justification for waiver and deferral strategies, demonstrating how pediatric requirements can influence development planning and regulatory strategy.',
@@ -195,7 +195,7 @@ export const portfolio = {
       id: 'DP-PRJ-004',
       framework: 'FDA / ICH-GCP · Phase II Clinical Trial',
       title: 'Clinical Trial Informed Consent Form (ICF): TNP-2092 for Liver Cirrhosis',
-      teaser: 'Academic regulatory project developed at Northeastern University.',
+      teaser: 'Developed a patient-centered Phase II informed consent form aligned with FDA and ICH-GCP principles, addressing ethical transparency, subject protection, and informed decision-making. Incorporated safety communication and data-privacy considerations to support clear communication of clinical-trial risks, requirements, and participant protections.',
       bullets: [
         'Developed a patient-centered Phase II informed consent form aligned with FDA and ICH-GCP principles, addressing ethical transparency, subject protection, and informed decision-making.',
         'Incorporated safety communication and data-privacy considerations to support clear communication of clinical-trial risks, requirements, and participant protections.',
