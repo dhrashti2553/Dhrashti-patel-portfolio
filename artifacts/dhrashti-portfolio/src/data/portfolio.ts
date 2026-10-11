@@ -6,7 +6,7 @@ export const portfolio = {
   linkedinUrl: 'https://www.linkedin.com/in/dhrashtipatel/',
   resumePath: '/Dhrashti_Patel_Resume.pdf',
   tagline: 'Turning complex regulatory requirements into clear, compliant, submission-ready documents.',
-  contactAvailability: 'Open to full-time Regulatory Affairs, Regulatory Operations, and Medical Writing opportunities. Open to relocation.',
+  contactAvailability: 'Open to full-time opportunities in Regulatory Affairs, Clinical Research Documentation, Regulatory Operations, Medical Writing, Quality, and GxP Compliance.',
   siteTitle: 'Dhrashti Patel | Regulatory Affairs Portfolio',
   siteDescription: "Explore Dhrashti Patel's regulatory affairs dossier: education, pharmaceutical experience, regulatory project work, and skills across regulatory operations, medical writing, and clinical research documentation.",
   footerStatus: 'Regulatory Affairs · Medical Writing',
