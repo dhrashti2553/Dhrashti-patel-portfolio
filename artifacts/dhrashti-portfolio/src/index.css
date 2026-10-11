@@ -180,7 +180,6 @@
 .core-focus-label { color:var(--teal); font:500 10px var(--app-font-mono); letter-spacing:.1em; text-transform:uppercase; margin-bottom:2px; }
 .competency { display:flex;align-items:flex-start;gap:11px;color:var(--ink);font-size:12px; }
 .competency strong { display:block; font-size:12px; line-height:1.35; }
-.competency small { display:block; margin-top:3px; color:var(--subtle); font-size:10px; line-height:1.45; }
 .competency-icon { width:30px;height:30px; display:grid;place-items:center;border:1px solid var(--line);color:var(--teal); }
 .competency-icon svg { width:15px; }
 .education-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }

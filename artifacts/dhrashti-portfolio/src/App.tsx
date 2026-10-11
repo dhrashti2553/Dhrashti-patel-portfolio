@@ -333,7 +333,7 @@ function App() {
               <div className="core-focus-label">Core Focus</div>
               {portfolio.competencies.map((item, i) => {
                 const Icon = [FileText, FolderOpen, BookOpen, ShieldCheck][i];
-                return <div className="competency" key={item.title}><span className="competency-icon"><Icon /></span><span><strong>{item.title}</strong><small>{item.detail}</small></span></div>;
+                return <div className="competency" key={item.title}><span className="competency-icon"><Icon /></span><strong>{item.title}</strong></div>;
               })}
             </div>
           </div>
