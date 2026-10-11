@@ -205,11 +205,11 @@ export const portfolio = {
   ],
   skillGroups: [
     {
-      category: 'Regulatory',
+      category: 'Regulatory Affairs',
       skills: [
         ['FDA & EMA Regulations', 'Academic and professional exposure to global regulatory frameworks.'],
         ['ICH Guidelines', 'Applied within clinical and regulatory documentation contexts.'],
-        ['21 CFR (210, 211, 820)', 'Knowledge of regulations spanning manufacturing, quality, and device requirements.'],
+        ['21 CFR Parts 210, 211 & 820', 'Knowledge of regulations spanning manufacturing, quality, and device requirements.'],
         ['IND & NDA Submissions', 'Submission lifecycle and document readiness experience.'],
         ['510(k) Pathway', 'Regulatory pathway knowledge for medical devices.'],
         ['CTD/eCTD Submission Readiness', 'CTD document preparation and consistency across outputs.'],
@@ -217,9 +217,9 @@ export const portfolio = {
       ],
     },
     {
-      category: 'Systems & Tools',
+      category: 'Regulatory Systems & Tools',
       skills: [
-        ['Veeva Vault (RIM, eTMF, Quality)', 'Used at Alnylam for binder creation & approval workflows.'],
+        ['Veeva Vault — RIM, eTMF, Quality', 'Used at Alnylam for binder creation and approval workflows.'],
         ['EndNote', 'Managed end-to-end reference workflows for Medical Writing Operations.'],
         ['Zotero', 'Reference management tool.'],
         ['Smartsheet', 'Project and submission tracking tool.'],
@@ -229,10 +229,10 @@ export const portfolio = {
       ],
     },
     {
-      category: 'Clinical Research Documentation',
+      category: 'Quality & GxP',
       skills: [
-        ['Clinical Research Documentation', 'Practices supporting compliant, controlled clinical research documentation.'],
-        ['CAPA Management', 'Quality systems knowledge.'],
+        ['GxP Compliance — GMP, GLP, GCP', 'Knowledge of good practice requirements across quality and clinical documentation.'],
+        ['CAPA Management', 'Quality systems knowledge and exposure.'],
         ['Deviation Handling', 'Exposure through quality compliance workflows at Amneal.'],
         ['Quality Management Systems (QMS)', 'Quality systems knowledge and documentation practices.'],
         ['Document Lifecycle Management', 'Experience with controlled records, review, and version workflows.'],
@@ -240,11 +240,16 @@ export const portfolio = {
       ],
     },
     {
-      category: 'Scientific & Lab',
+      category: 'Medical & Scientific Documentation',
       skills: [
         ['Clinical Study Report (CSR) Appendices', 'Prepared CSR appendices for submission-ready documents.'],
         ['TFL Compilation', 'Supported CTD outputs including Tables, Figures, and Listings.'],
         ['Scientific Writing', 'Scientific and regulatory document development.'],
+      ],
+    },
+    {
+      category: 'Scientific & Laboratory Exposure',
+      skills: [
         ['HPLC', 'Laboratory technique.'],
         ['GC', 'Laboratory technique.'],
         ['UV Spectroscopy', 'Laboratory technique.'],

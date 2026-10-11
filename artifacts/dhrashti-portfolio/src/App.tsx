@@ -84,10 +84,11 @@ const greetings = [
 ];
 
 const categoryIcons: Record<string, typeof ShieldCheck> = {
-  Regulatory: ShieldCheck,
-  "Systems & Tools": Wrench,
-  "Clinical Research Documentation": Award,
-  "Scientific & Lab": FlaskConical,
+  "Regulatory Affairs": ShieldCheck,
+  "Regulatory Systems & Tools": Wrench,
+  "Quality & GxP": Award,
+  "Medical & Scientific Documentation": FileText,
+  "Scientific & Laboratory Exposure": FlaskConical,
   Professional: Users,
 };
 

@@ -224,8 +224,8 @@
 .filter-tabs { display:flex;flex-wrap:wrap;gap:7px;border-bottom:1px solid var(--line);padding-bottom:17px; }
 .filter-tab { border:1px solid var(--line);background:transparent;color:var(--subtle);font:10px var(--app-font-mono);padding:8px 11px; }
 .filter-tab.selected { border-color:var(--teal);color:var(--teal);background:color-mix(in srgb,var(--teal),transparent 93%); }
-.skill-grid { display:flex;flex-wrap:wrap;gap:9px;padding-top:20px;min-height:130px; }
-.skill-chip { position:relative; border:1px solid var(--line);background:var(--paper);padding:9px 12px;display:flex;align-items:center;gap:8px;color:var(--ink);font-size:11px;animation:chip-in .28s both; }
+.skill-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:9px;padding-top:20px;min-height:130px; }
+.skill-chip { position:relative; box-sizing:border-box;min-height:48px;width:100%;border:1px solid var(--line);background:var(--paper);padding:9px 12px;display:flex;align-items:center;gap:8px;color:var(--ink);font-size:11px;animation:chip-in .28s both; }
 .skill-chip svg { width:14px;height:14px;color:var(--teal); }
 .skill-chip .tooltip { position:absolute;z-index:4;bottom:calc(100% + 8px);left:50%;transform:translate(-50%,4px);opacity:0;pointer-events:none;background:var(--ink);color:var(--paper);padding:8px 10px;width:215px;font:10px/1.5 var(--app-font-sans);box-shadow:var(--shadow);transition:opacity .18s,transform .18s; }
 .skill-chip:hover .tooltip,.skill-chip:focus .tooltip { opacity:1;transform:translate(-50%,0); }
