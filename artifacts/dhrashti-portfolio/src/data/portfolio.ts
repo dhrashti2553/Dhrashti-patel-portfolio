@@ -8,13 +8,13 @@ export const portfolio = {
   tagline: 'Turning complex regulatory requirements into clear, compliant, submission-ready documents.',
   contactAvailability: 'Open to full-time Regulatory Affairs, Regulatory Operations, and Medical Writing opportunities. Open to relocation.',
   siteTitle: 'Dhrashti Patel | Regulatory Affairs Portfolio',
-  siteDescription: "Explore Dhrashti Patel's regulatory affairs dossier: education, pharmaceutical experience, regulatory project work, and skills across regulatory operations, medical writing, and GxP documentation.",
+  siteDescription: "Explore Dhrashti Patel's regulatory affairs dossier: education, pharmaceutical experience, regulatory project work, and skills across regulatory operations, medical writing, and clinical research documentation.",
   footerStatus: 'Regulatory Affairs · Medical Writing',
   titleRotations: [
     'Regulatory Affairs Professional',
     'Medical Writing & Regulatory Operations',
     'Document Lifecycle Specialist',
-    'GxP-Minded Documentation Expert',
+    'Clinical Research Documentation Specialist',
   ],
   hobbies: [
     {
@@ -48,7 +48,7 @@ export const portfolio = {
     'Regulatory Submissions (IND/NDA/CTD)',
     'Veeva Vault Workflows',
     'Medical Writing & CSR Support',
-    'GxP & Quality Documentation',
+    'Clinical Research Documentation',
   ],
   education: [
     {
@@ -211,9 +211,9 @@ export const portfolio = {
       ],
     },
     {
-      category: 'Quality & GxP',
+      category: 'Clinical Research Documentation',
       skills: [
-        ['GxP Compliance (GMP, GLP, GCP)', 'Practices supporting compliant, controlled documentation.'],
+        ['Clinical Research Documentation', 'Practices supporting compliant, controlled clinical research documentation.'],
         ['CAPA Management', 'Quality systems knowledge.'],
         ['Deviation Handling', 'Exposure through quality compliance workflows at Amneal.'],
         ['Quality Management Systems (QMS)', 'Quality systems knowledge and documentation practices.'],

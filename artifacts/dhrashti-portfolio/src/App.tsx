@@ -51,7 +51,7 @@ const greetings = [
 const categoryIcons: Record<string, typeof ShieldCheck> = {
   Regulatory: ShieldCheck,
   'Systems & Tools': Wrench,
-  'Quality & GxP': Award,
+  'Clinical Research Documentation': Award,
   'Scientific & Lab': FlaskConical,
   Professional: Users,
 };
@@ -298,7 +298,7 @@ function App() {
                 >{greeting.word}</motion.span>
                 <span className="greeting-language">{greeting.language}</span>
               </div>
-              <div className="eyebrow mono">REGULATORY AFFAIRS · MEDICAL WRITING · GxP</div>
+              <div className="eyebrow mono">REGULATORY AFFAIRS · MEDICAL WRITING · CLINICAL RESEARCH DOCUMENTATION</div>
               <h1 id="cover-title">{portfolio.name}</h1>
               <div className="typing-line" aria-live="polite" data-testid="professional-title">{typedTitle}<span className="cursor" aria-hidden="true" /></div>
               <p className="hero-copy">{portfolio.tagline}</p>
