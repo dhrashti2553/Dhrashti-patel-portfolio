@@ -767,10 +767,10 @@ function App() {
           id="skills"
           aria-labelledby="skills-title"
         >
-          {header("6.0", "Compliance Matrix", "skills")}
+          {header("6.0", "Regulatory, Quality & Technical Toolkit", "skills")}
           <div className="doc-strip">
             <span>DOC ID: DP-RA-006</span>
-            <span>SKILL INDEX</span>
+            <span>TOOLKIT INDEX</span>
             <span>{allSkills.length} ITEMS</span>
             <span className="status">CURRENT</span>
           </div>
