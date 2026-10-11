@@ -324,11 +324,16 @@ function App() {
           {header('2.0', 'Professional Summary', 'summary')}
           <div className="doc-strip"><span>DOC ID: DP-RA-002</span><span>VERSION 2.1</span><span>MODULE 2</span><span className="status">APPROVED</span></div>
           <div className="document-card summary-card card-hover">
-            <div className="summary-text"><strong>Regulatory affairs, made legible.</strong><br />{portfolio.summary}</div>
+            <div className="summary-text">
+              <strong>{portfolio.summary.lead}</strong>
+              {portfolio.summary.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              <p className="summary-education">{portfolio.summary.educationLine}</p>
+            </div>
             <div className="competencies">
+              <div className="core-focus-label">Core Focus</div>
               {portfolio.competencies.map((item, i) => {
                 const Icon = [FileText, FolderOpen, BookOpen, ShieldCheck][i];
-                return <div className="competency" key={item}><span className="competency-icon"><Icon /></span>{item}</div>;
+                return <div className="competency" key={item.title}><span className="competency-icon"><Icon /></span><span><strong>{item.title}</strong><small>{item.detail}</small></span></div>;
               })}
             </div>
           </div>

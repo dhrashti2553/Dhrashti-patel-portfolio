@@ -42,13 +42,31 @@ export const portfolio = {
     { value: '4', label: 'Regulatory Projects' },
     { value: '5', label: 'Global Regulatory Agencies Analyzed' },
   ],
-  summary:
-    'Regulatory Affairs graduate student with hands-on experience in regulatory document management, protocol and informed consent development, and GCP-aligned documentation practices. Skilled in Veeva Vault document workflows, regulatory binder management, and cross-functional coordination with clinical, quality, and regulatory teams. Detail-oriented and organized, with direct academic and professional exposure to clinical trial regulatory requirements, safety documentation, and submission tracking.',
+  summary: {
+    lead: 'Regulatory affairs, made legible.',
+    paragraphs: [
+      'I’m a Regulatory Affairs graduate student at Northeastern University with a Bachelor of Pharmacy and hands-on experience across medical writing, regulatory documentation, CMC, and pharmaceutical quality. My work has involved Veeva Vault workflows, CSR appendices, CTD documentation, GMP records, SOPs, and regulatory research, supported by academic experience in IND, protocol, and informed consent development.',
+      'I enjoy working at the point where scientific information meets regulatory requirements—organizing complex information, paying attention to the details, and turning it into clear, structured documentation that others can confidently review and use.',
+    ],
+    educationLine: 'MS Regulatory Affairs · Northeastern University · 3.9/4.0 · Graduating December 2026',
+  },
   competencies: [
-    'Regulatory Submissions (IND/NDA/CTD)',
-    'Veeva Vault Workflows',
-    'Medical Writing & CSR Support',
-    'Clinical Research Documentation',
+    {
+      title: 'Regulatory Documentation & Submission Readiness',
+      detail: 'IND · CTD/eCTD · FDA/ICH · Regulatory Research',
+    },
+    {
+      title: 'Veeva Vault & Document Workflows',
+      detail: 'RIM · eTMF · Quality · Document Lifecycle Management',
+    },
+    {
+      title: 'Medical Writing & Clinical Documentation',
+      detail: 'CSR Appendices · TFL Support · Scientific Writing · References',
+    },
+    {
+      title: 'GxP & Quality Documentation',
+      detail: 'GMP · GDP · GCP · BMR/BPR · SOPs · Deviation Reporting',
+    },
   ],
   education: [
     {
