@@ -39,7 +39,7 @@ export const portfolio = {
   stats: [
     { value: '3.9', label: 'GPA, MS Regulatory Affairs' },
     { value: '4', label: 'Industry Roles' },
-    { value: '4', label: 'Regulatory Projects' },
+    { value: '5', label: 'Regulatory Projects' },
     { value: '5', label: 'Global Regulatory Agencies Analyzed' },
   ],
   summary: {
@@ -201,6 +201,17 @@ export const portfolio = {
         'Incorporated safety communication and data-privacy considerations to support clear communication of clinical-trial risks, requirements, and participant protections.',
       ],
       tags: ['ICH-GCP', 'Informed Consent', 'Clinical Trials', 'Patient Protection', 'Safety Communication'],
+    },
+    {
+      id: 'DP-PRJ-005',
+      framework: 'FDA · Predetermined Change Control Plans',
+      title: 'PCCP Regulatory Analysis',
+      teaser: 'Summarized and analyzed regulatory requirements for Predetermined Change Control Plans (PCCPs), highlighting regulatory considerations for managing planned device changes and maintaining compliance.',
+      bullets: [
+        'Summarized and analyzed regulatory requirements for Predetermined Change Control Plans (PCCPs).',
+        'Highlighted regulatory considerations for managing planned device changes while maintaining compliance.',
+      ],
+      tags: ['PCCP', 'Medical Devices', 'FDA Regulations', 'Change Management', 'Regulatory Compliance'],
     },
   ],
   skillGroups: [
